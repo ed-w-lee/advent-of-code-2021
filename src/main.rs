@@ -2,6 +2,7 @@
 extern crate derive_more;
 
 mod day1;
+mod day10;
 mod day2;
 mod day3;
 mod day4;
@@ -30,5 +31,7 @@ fn main() {
     // println!("{}", day8::solution_1());
     // println!("{}", day8::solution_2());
     // println!("{}", day9::solution_1());
-    println!("{}", day9::solution_2());
+    // println!("{}", day9::solution_2());
+    // println!("{}", day10::solution_1());
+    // println!("{}", day10::solution_2());
 }
