@@ -1,11 +1,11 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, path::Path};
 
 use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1() -> usize {
-    let lines = read_lines("input/day5_input.txt").expect("failed to read input");
+pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let lr_coords: Vec<((i32, i32), (i32, i32))> = lines
         .into_iter()
         .map(|line| {
@@ -57,8 +57,8 @@ pub fn solution_1() -> usize {
         .count()
 }
 
-pub fn solution_2() -> usize {
-    let lines = read_lines("input/day5_input.txt").expect("failed to read input");
+pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let lr_coords: Vec<((i32, i32), (i32, i32))> = lines
         .into_iter()
         .map(|line| {

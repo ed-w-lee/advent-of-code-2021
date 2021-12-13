@@ -1,5 +1,5 @@
 use crate::util::read_lines;
-use std::collections::{HashMap, HashSet};
+use std::{collections::{HashMap, HashSet}, path::Path};
 
 fn is_small(s: &str) -> bool {
     s.chars().nth(0).unwrap().is_lowercase()
@@ -29,8 +29,8 @@ fn count_paths(
     count
 }
 
-pub fn solution_1() -> usize {
-    let lines = read_lines("input/day12_input.txt").expect("failed to read input");
+pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let edges: Vec<(String, String)> = lines
         .into_iter()
         .map(|line| {
@@ -87,8 +87,8 @@ fn count_paths_double(
     count
 }
 
-pub fn solution_2() -> usize {
-    let lines = read_lines("input/day12_input.txt").expect("failed to read input");
+pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let edges: Vec<(String, String)> = lines
         .into_iter()
         .map(|line| {

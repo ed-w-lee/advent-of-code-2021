@@ -1,9 +1,11 @@
+use std::path::Path;
+
 use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1() -> i32 {
-    let mut lines = read_lines("input/day7_input.txt").expect("failed to read input");
+pub fn solution_1<P>(filename: P) -> i32 where P: AsRef<Path> {
+    let mut lines = read_lines(filename).expect("failed to read input");
     let line = lines.next().expect("no line").expect("no line 2");
     let positions: Vec<i32> = line
         .split_terminator(',')
@@ -14,8 +16,8 @@ pub fn solution_1() -> i32 {
     positions.into_iter().map(|pos| (pos - opt_pos).abs()).sum()
 }
 
-pub fn solution_2() -> i32 {
-    let mut lines = read_lines("input/day7_input.txt").expect("failed to read input");
+pub fn solution_2<P>(filename: P) -> i32 where P: AsRef<Path> {
+    let mut lines = read_lines(filename).expect("failed to read input");
     let line = lines.next().expect("no line").expect("no line 2");
     let positions: Vec<i32> = line
         .split_terminator(',')

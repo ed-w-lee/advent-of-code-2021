@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, path::Path};
 
 use crate::util::read_lines;
 
@@ -17,9 +17,9 @@ fn generated_fish(dp: &mut HashMap<(u32, u32), usize>, timer: u32, num_days: u32
     return generated_fish(dp, timer - 1, num_days - 1);
 }
 
-pub fn solution_1() -> usize {
+pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
     const NUM_DAYS: u32 = 80;
-    let mut lines = read_lines("input/day6_input.txt").expect("failed to read input");
+    let mut lines = read_lines(filename).expect("failed to read input");
     let line = lines.next().expect("no line").expect("no line 2");
     let mut dp: HashMap<(u32, u32), usize> = HashMap::new();
     line.split_terminator(',')
@@ -27,9 +27,9 @@ pub fn solution_1() -> usize {
         .sum()
 }
 
-pub fn solution_2() -> usize {
+pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
     const NUM_DAYS: u32 = 256;
-    let mut lines = read_lines("input/day6_input.txt").expect("failed to read input");
+    let mut lines = read_lines(filename).expect("failed to read input");
     let line = lines.next().expect("no line").expect("no line 2");
     let mut dp: HashMap<(u32, u32), usize> = HashMap::new();
     line.split_terminator(',')

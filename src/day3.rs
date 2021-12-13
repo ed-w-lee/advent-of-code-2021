@@ -1,9 +1,9 @@
-use std::vec;
+use std::{vec, path::Path};
 
 use crate::util::read_lines;
 
-pub fn solution_1() -> i32 {
-    let lines = read_lines("input/day3_input.txt").expect("failed to read input");
+pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
+    let lines = read_lines(fname).expect("failed to read input");
     let nums: Vec<String> = lines
         .into_iter()
         .map(|line| line.expect("couldn't find line"))
@@ -81,8 +81,8 @@ fn filter_step(nums: Vec<Vec<u8>>, idx: usize, rating: Rating) -> usize {
     )
 }
 
-pub fn solution_2() -> usize {
-    let lines = read_lines("input/day3_input.txt").expect("failed to read input");
+pub fn solution_2<P>(fname: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(fname).expect("failed to read input");
     let nums: Vec<Vec<u8>> = lines
         .into_iter()
         .map(|line| {

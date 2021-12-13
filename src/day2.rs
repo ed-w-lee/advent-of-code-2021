@@ -1,10 +1,12 @@
+use std::path::Path;
+
 use crate::util::read_lines;
 
 #[derive(Add, Sum)]
 struct Offset(i32, i32);
 
-pub fn solution_1() -> i32 {
-    let lines = read_lines("input/day2_input.txt").expect("failed to read input");
+pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
+    let lines = read_lines(fname).expect("failed to read input");
     let offset = lines
         .into_iter()
         .map(|line| {
@@ -32,8 +34,8 @@ pub fn solution_1() -> i32 {
     offset.0 * offset.1
 }
 
-pub fn solution_2() -> i32 {
-    let lines = read_lines("input/day2_input.txt").expect("failed to read input");
+pub fn solution_2<P>(fname: P) -> i32 where P: AsRef<Path> {
+    let lines = read_lines(fname).expect("failed to read input");
     let offset = lines
         .into_iter()
         .map(|line| {

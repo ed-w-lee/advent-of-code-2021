@@ -1,11 +1,11 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::{collections::{HashMap, HashSet, VecDeque}, path::Path};
 
 use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1() -> u32 {
-    let lines = read_lines("input/day9_input.txt").expect("failed to read input");
+pub fn solution_1<P>(filename: P) -> u32 where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let vals: HashMap<(i32, i32), u32> = lines
         .into_iter()
         .enumerate()
@@ -37,8 +37,8 @@ pub fn solution_1() -> u32 {
         .sum()
 }
 
-pub fn solution_2() -> usize {
-    let lines = read_lines("input/day9_input.txt").expect("failed to read input");
+pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let vals: HashMap<(i32, i32), u32> = lines
         .into_iter()
         .enumerate()

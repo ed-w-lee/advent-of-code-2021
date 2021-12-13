@@ -1,4 +1,4 @@
-use std::collections::{HashMap, VecDeque};
+use std::{collections::{HashMap, VecDeque}, path::Path};
 
 use itertools::Itertools;
 
@@ -26,13 +26,13 @@ fn parse_line(closing_map: &HashMap<char, char>, line: String) -> Result<VecDequ
         })
 }
 
-pub fn solution_1() -> u32 {
+pub fn solution_1<P>(filename: P) -> u32 where P: AsRef<Path> {
     let point_map: HashMap<char, u32> =
         HashMap::from([(')', 3), (']', 57), ('}', 1197), ('>', 25137)]);
     let closing_map: HashMap<char, char> =
         HashMap::from([('(', ')'), ('{', '}'), ('[', ']'), ('<', '>')]);
 
-    let lines = read_lines("input/day10_input.txt").expect("failed to read input");
+    let lines = read_lines(filename).expect("failed to read input");
     lines
         .into_iter()
         .map(|line| parse_line(&closing_map, line.unwrap()))
@@ -46,12 +46,12 @@ pub fn solution_1() -> u32 {
         .sum()
 }
 
-pub fn solution_2() -> u64 {
+pub fn solution_2<P>(filename: P) -> u64 where P: AsRef<Path> {
     let point_map: HashMap<char, u64> = HashMap::from([(')', 1), (']', 2), ('}', 3), ('>', 4)]);
     let closing_map: HashMap<char, char> =
         HashMap::from([('(', ')'), ('{', '}'), ('[', ']'), ('<', '>')]);
 
-    let lines = read_lines("input/day10_input.txt").expect("failed to read input");
+    let lines = read_lines(filename).expect("failed to read input");
     let scores: Vec<u64> = lines
         .into_iter()
         .filter_map(|line| parse_line(&closing_map, line.unwrap()).ok())

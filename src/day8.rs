@@ -1,15 +1,15 @@
 use std::{
     char::from_digit,
-    collections::{HashMap, HashSet},
+    collections::{HashMap, HashSet}, path::Path,
 };
 
 use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1() -> usize {
+pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
     let unique_digits = HashSet::from([2, 3, 4, 7]);
-    let lines = read_lines("input/day8_input.txt").expect("failed to read input");
+    let lines = read_lines(filename).expect("failed to read input");
     lines
         .into_iter()
         .map(|line| {
@@ -124,8 +124,8 @@ fn find_digits(digits: Vec<String>) -> HashMap<String, char> {
         .collect()
 }
 
-pub fn solution_2() -> u32 {
-    let lines = read_lines("input/day8_input.txt").expect("failed to read input");
+pub fn solution_2<P>(filename: P) -> u32 where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
     let digit_outputs: Vec<(Vec<String>, Vec<String>)> = lines
         .into_iter()
         .map(|line_res| {

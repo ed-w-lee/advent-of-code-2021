@@ -1,4 +1,4 @@
-use std::{cmp, collections::HashMap};
+use std::{cmp, collections::HashMap, path::Path};
 
 use itertools::Itertools;
 
@@ -74,8 +74,8 @@ fn get_order_and_score(card: BingoCard) -> (usize, i32) {
     (*winner_order, unmarked_numbers * winner_value)
 }
 
-fn get_card_info() -> Vec<BingoCard> {
-    let lines = read_lines("input/day4_input.txt").expect("failed to read input");
+fn get_card_info<P>(filename: P) -> Vec<BingoCard> where P: AsRef<Path>{
+    let lines = read_lines(filename).expect("failed to read input");
     let mut it = lines.into_iter();
     let number_to_order: HashMap<i32, usize> = it
         .next()
@@ -110,8 +110,8 @@ fn get_card_info() -> Vec<BingoCard> {
         .collect()
 }
 
-pub fn solution_1() -> i32 {
-    get_card_info()
+pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
+    get_card_info(fname)
         .into_iter()
         .map(|card| get_order_and_score(card))
         .min()
@@ -119,8 +119,8 @@ pub fn solution_1() -> i32 {
         .1
 }
 
-pub fn solution_2() -> i32 {
-    get_card_info()
+pub fn solution_2<P>(fname: P) -> i32 where P: AsRef<Path> {
+    get_card_info(fname)
         .into_iter()
         .map(|card| get_order_and_score(card))
         .max()

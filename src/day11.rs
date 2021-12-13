@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::{collections::{HashMap, HashSet}, path::Path};
 
 use crate::util::read_lines;
 
@@ -48,8 +48,8 @@ fn step(grid: &mut HashMap<(i32, i32), u32>) -> usize {
     has_flashed.len()
 }
 
-pub fn solution_1(steps: u32) -> usize {
-    let lines = read_lines("input/day11_input.txt").expect("failed to read input");
+pub fn solution_1<P>(filename: P, steps: u32) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
 
     let mut vals: HashMap<(i32, i32), u32> = lines
         .into_iter()
@@ -67,8 +67,8 @@ pub fn solution_1(steps: u32) -> usize {
     (0..steps).fold(0usize, |flashes, _| flashes + step(&mut vals))
 }
 
-pub fn solution_2() -> usize {
-    let lines = read_lines("input/day11_input.txt").expect("failed to read input");
+pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+    let lines = read_lines(filename).expect("failed to read input");
 
     let mut vals: HashMap<(i32, i32), u32> = lines
         .into_iter()
