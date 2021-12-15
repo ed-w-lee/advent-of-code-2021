@@ -7,6 +7,7 @@ mod day11;
 mod day12;
 mod day13;
 mod day14;
+mod day15;
 mod day2;
 mod day3;
 mod day4;
@@ -46,4 +47,6 @@ fn main() {
     // println!("{}", day13::solution_2("input/day13_input.txt"));
     // println!("{}", day14::solution_1("input/day14_input.txt"));
     // println!("{}", day14::solution_2("input/day14_input.txt"));
+    // println!("{}", day15::solution_1("input/day15_input.txt"));
+    println!("{}", day15::solution_2("input/day15_input.txt"));
 }
