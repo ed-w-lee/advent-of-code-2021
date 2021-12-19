@@ -8,6 +8,7 @@ mod day12;
 mod day13;
 mod day14;
 mod day15;
+mod day16;
 mod day2;
 mod day3;
 mod day4;
@@ -17,6 +18,8 @@ mod day7;
 mod day8;
 mod day9;
 mod util;
+
+use crate::util::read_lines;
 
 fn main() {
     // println!("{}", day1::solution_1("input/day1_input.txt"));
@@ -48,5 +51,21 @@ fn main() {
     // println!("{}", day14::solution_1("input/day14_input.txt"));
     // println!("{}", day14::solution_2("input/day14_input.txt"));
     // println!("{}", day15::solution_1("input/day15_input.txt"));
-    println!("{}", day15::solution_2("input/day15_input.txt"));
+    // println!("{}", day15::solution_2("input/day15_input.txt"));
+    {
+        let lines = read_lines("input/day16_input.txt").expect("failed to read input");
+        let scores: Vec<u32> = lines
+            .into_iter()
+            .map(|l| day16::solution_1(&l.unwrap()))
+            .collect();
+        println!("{:?}", scores);
+    }
+    {
+        let lines = read_lines("input/day16_input.txt").expect("failed to read input");
+        let scores: Vec<_> = lines
+            .into_iter()
+            .map(|l| day16::solution_2(&l.unwrap()))
+            .collect();
+        println!("{:?}", scores);
+    }
 }
