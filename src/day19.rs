@@ -13,7 +13,7 @@ struct Report {
     distance_set: HashSet<i32>,
     distance_map: HashMap<i32, (usize, usize)>,
     node_distances: HashMap<usize, HashMap<i32, usize>>,
-    standardized: bool,
+    scanner_loc: Option<(i32, i32, i32)>,
 }
 
 impl Report {
@@ -24,7 +24,7 @@ impl Report {
             distance_set,
             distance_map,
             node_distances,
-            standardized: false,
+            scanner_loc: None,
         }
     }
 
@@ -33,7 +33,7 @@ impl Report {
     }
 
     fn normalize(&self, other: &mut Self) -> bool {
-        if other.standardized {
+        if let Some(_) = other.scanner_loc {
             return false;
         }
         let mut intersection = self.distance_set.intersection(&other.distance_set);
@@ -100,7 +100,8 @@ impl Report {
                             (rotated.0 + tx, rotated.1 + ty, rotated.2 + tz)
                         })
                         .collect();
-                    self.standardized = true;
+                    let rotated = rotate(&(0, 0, 0), rotate_idx);
+                    self.scanner_loc = Some((rotated.0 + tx, rotated.1 + ty, rotated.2 + tz));
                 }
                 None => continue,
             }
@@ -237,7 +238,7 @@ where
         }
     }
     reports.push(Report::new(&coords));
-    reports[0].standardized = true;
+    reports[0].scanner_loc = Some((0, 0, 0));
     let mut q: VecDeque<usize> = VecDeque::new();
     q.push_back(0);
     while let Some(next) = q.pop_front() {
@@ -256,24 +257,60 @@ where
     beacons.len()
 }
 
-// pub fn solution_2<P>(filename: P) -> u64
-// where
-//     P: AsRef<Path>,
-// {
-//     let point_map: HashMap<char, u64> = HashMap::from([(')', 1), (']', 2), ('}', 3), ('>', 4)]);
-//     let closing_map: HashMap<char, char> =
-//         HashMap::from([('(', ')'), ('{', '}'), ('[', ']'), ('<', '>')]);
-
-//     let lines = read_lines(filename).expect("failed to read input");
-//     let scores: Vec<u64> = lines
-//         .into_iter()
-//         .filter_map(|line| parse_line(&closing_map, line.unwrap()).ok())
-//         .map(|res| {
-//             res.into_iter().rev().fold(0u64, |acc, c| {
-//                 acc * 5 + point_map.get(&closing_map.get(&c).unwrap()).unwrap()
-//             })
-//         })
-//         .sorted()
-//         .collect();
-//     scores[scores.len() / 2]
-// }
+pub fn solution_2<P>(filename: P) -> i32
+where
+    P: AsRef<Path>,
+{
+    let mut iter = read_lines(filename)
+        .expect("failed to read input")
+        .into_iter();
+    let mut reports: Vec<Report> = Vec::new();
+    let mut coords: Vec<(i32, i32, i32)> = Vec::new();
+    iter.next();
+    loop {
+        match iter.next() {
+            None => break,
+            Some(l) => {
+                let line = l.unwrap();
+                if line.trim().is_empty() {
+                    reports.push(Report::new(&coords));
+                    coords.clear();
+                    iter.next();
+                    continue;
+                }
+                let coord: (i32, i32, i32) = line
+                    .split(',')
+                    .into_iter()
+                    .map(|coord| coord.parse::<i32>().unwrap())
+                    .collect_tuple()
+                    .unwrap();
+                coords.push(coord);
+            }
+        }
+    }
+    reports.push(Report::new(&coords));
+    reports[0].scanner_loc = Some((0, 0, 0));
+    let mut q: VecDeque<usize> = VecDeque::new();
+    q.push_back(0);
+    while let Some(next) = q.pop_front() {
+        let curr = reports.get(next).unwrap().clone();
+        reports.iter_mut().enumerate().for_each(|(i, next)| {
+            if curr.normalize(next) {
+                q.push_back(i)
+            }
+        });
+    }
+    let locs: Vec<(i32, i32, i32)> = reports
+        .into_iter()
+        .map(|r| r.scanner_loc.unwrap())
+        .collect();
+    locs.iter()
+        .map(|a| {
+            locs.iter()
+                .map(|b| ((a.0 - b.0).abs() + (a.1 - b.1).abs() + (a.2 - b.2).abs()))
+                .max()
+                .unwrap()
+        })
+        .max()
+        .unwrap()
+}
