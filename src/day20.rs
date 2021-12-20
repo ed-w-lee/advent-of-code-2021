@@ -57,8 +57,10 @@ impl Board {
             })
             .collect();
         self.foreground_lights = new_foreground;
-        if self.enhancement_algo.contains(&0) {
-            self.is_background_lit = !self.is_background_lit;
+        if self.enhancement_algo.contains(&0) && !self.is_background_lit {
+            self.is_background_lit = true;
+        } else if !self.enhancement_algo.contains(&511) && self.is_background_lit {
+            self.is_background_lit = false;
         }
         self.foreground_col_bound = (col_min - 1, col_max + 1);
         self.foreground_row_bound = (row_min - 1, row_max + 1);
@@ -127,7 +129,8 @@ where
     P: AsRef<Path>,
 {
     let mut board = get_board(filename);
-    for _ in 0..50 {
+    for i in 0..50 {
+        println!("step: {}", i);
         board.step();
     }
     board.foreground_lights.len()
