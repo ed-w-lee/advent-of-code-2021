@@ -1,13 +1,4 @@
-use std::{
-    collections::{HashMap, VecDeque},
-    error::Error,
-    fmt::Debug,
-    ops::Add,
-    path::Path,
-    str::FromStr,
-};
-
-use itertools::Itertools;
+use std::{collections::VecDeque, fmt::Debug, ops::Add, path::Path, str::FromStr};
 
 use crate::util::read_lines;
 

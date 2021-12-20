@@ -1,12 +1,4 @@
-use std::{
-    cmp::min,
-    collections::{HashMap, VecDeque},
-    path::Path,
-};
-
-use itertools::Itertools;
-
-use crate::util::read_lines;
+use std::cmp::min;
 
 fn num_possible_x(xbound: (u64, u64), step_bound: (u64, u64)) -> usize {
     // you might be able to cache the (step, bound) -> count, but whatever

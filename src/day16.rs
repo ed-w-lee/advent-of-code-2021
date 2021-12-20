@@ -1,13 +1,3 @@
-use std::{
-    any::type_name,
-    collections::{HashMap, VecDeque},
-    path::Path,
-};
-
-use itertools::Itertools;
-
-use crate::util::read_lines;
-
 #[derive(Debug)]
 struct Literal {
     version: u32,
