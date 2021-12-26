@@ -1,8 +1,7 @@
-use std::{collections::{HashMap, VecDeque, HashSet, hash_map::DefaultHasher}, path::Path, iter::FromIterator, cmp::min, hash::{Hash, self, Hasher}};
+use std::{collections::{HashMap, VecDeque}, hash::Hash};
 
 use itertools::Itertools;
 
-use crate::util::read_lines;
 use crate::day23::Amphipod::*;
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, PartialOrd, Ord)]
