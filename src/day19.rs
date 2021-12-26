@@ -7,17 +7,22 @@ use itertools::Itertools;
 
 use crate::util::read_lines;
 
+type Coord = (i32, i32, i32);
+type DistanceSet = HashSet<i32>;
+type EdgeDistanceForNodes = HashMap<i32, (usize, usize)>;
+type NodeToDistanceToNode = HashMap<usize, HashMap<i32, usize>>;
+
 #[derive(Debug, Clone)]
 struct Report {
-    coords: Vec<(i32, i32, i32)>,
-    distance_set: HashSet<i32>,
-    distance_map: HashMap<i32, (usize, usize)>,
-    node_distances: HashMap<usize, HashMap<i32, usize>>,
-    scanner_loc: Option<(i32, i32, i32)>,
+    coords: Vec<Coord>,
+    distance_set: DistanceSet,
+    distance_map: EdgeDistanceForNodes,
+    node_distances: NodeToDistanceToNode,
+    scanner_loc: Option<Coord>,
 }
 
 impl Report {
-    fn new(coords: &[(i32, i32, i32)]) -> Self {
+    fn new(coords: &[Coord]) -> Self {
         let (distance_set, distance_map, node_distances) = distances_for(coords);
         Self {
             coords: coords.iter().copied().collect(),
@@ -69,7 +74,8 @@ impl Report {
             self.node_distances
                 .get(s1)
                 .unwrap()
-                .iter().find(|(dist, idx)| s2 != *idx && other.distance_set.contains(*dist))
+                .iter()
+                .find(|(dist, idx)| s2 != *idx && other.distance_set.contains(*dist))
                 .unwrap()
         };
         let o1_distances = other.node_distances.get(o1).unwrap();
@@ -81,7 +87,7 @@ impl Report {
         true
     }
 
-    fn transform(&mut self, from: [(i32, i32, i32); 3], to: [(i32, i32, i32); 3]) {
+    fn transform(&mut self, from: [Coord; 3], to: [Coord; 3]) {
         for rotate_idx in 0..24 {
             let rotated = [
                 rotate(&from[0], rotate_idx),
@@ -107,19 +113,19 @@ impl Report {
     }
 }
 
-fn roll(coord: &(i32, i32, i32)) -> (i32, i32, i32) {
+fn roll(coord: &Coord) -> Coord {
     (coord.0, coord.2, -coord.1)
 }
 
-fn turn_cw(coord: &(i32, i32, i32)) -> (i32, i32, i32) {
+fn turn_cw(coord: &Coord) -> Coord {
     (-coord.1, coord.0, coord.2)
 }
 
-fn turn_ccw(coord: &(i32, i32, i32)) -> (i32, i32, i32) {
+fn turn_ccw(coord: &Coord) -> Coord {
     (coord.1, -coord.0, coord.2)
 }
 
-fn rotate(coord: &(i32, i32, i32), nth: u32) -> (i32, i32, i32) {
+fn rotate(coord: &Coord, nth: u32) -> Coord {
     let mut curr = *coord;
     let mut curr_n = 0;
     if curr_n == nth {
@@ -146,10 +152,7 @@ fn rotate(coord: &(i32, i32, i32), nth: u32) -> (i32, i32, i32) {
     unreachable!()
 }
 
-fn try_translate(
-    from: &[(i32, i32, i32); 3],
-    to: &[(i32, i32, i32); 3],
-) -> Option<(i32, i32, i32)> {
+fn try_translate(from: &[Coord; 3], to: &[Coord; 3]) -> Option<Coord> {
     if (from[0].0 - to[0].0) == (from[1].0 - to[1].0)
         && (from[1].0 - to[1].0) == (from[2].0 - to[2].0)
         && (from[0].1 - to[0].1) == (from[1].1 - to[1].1)
@@ -167,13 +170,7 @@ fn try_translate(
     }
 }
 
-fn distances_for(
-    coords: &[(i32, i32, i32)],
-) -> (
-    HashSet<i32>,
-    HashMap<i32, (usize, usize)>,
-    HashMap<usize, HashMap<i32, usize>>,
-) {
+fn distances_for(coords: &[Coord]) -> (DistanceSet, EdgeDistanceForNodes, NodeToDistanceToNode) {
     let distance_map: HashMap<i32, (usize, usize)> = coords
         .iter()
         .enumerate()
@@ -198,8 +195,8 @@ fn distances_for(
     let distance_set = distance_map.keys().cloned().collect();
     let mut node_distances: HashMap<usize, HashMap<i32, usize>> = HashMap::new();
     distance_map.iter().for_each(|(dist, (a, b))| {
-        (*node_distances.entry(*a).or_insert(HashMap::new())).insert(*dist, *b);
-        (*node_distances.entry(*b).or_insert(HashMap::new())).insert(*dist, *a);
+        (*node_distances.entry(*a).or_insert_with(HashMap::new)).insert(*dist, *b);
+        (*node_distances.entry(*b).or_insert_with(HashMap::new)).insert(*dist, *a);
     });
     (distance_set, distance_map, node_distances)
 }
@@ -208,10 +205,9 @@ pub fn solution_1<P>(filename: P) -> usize
 where
     P: AsRef<Path>,
 {
-    let mut iter = read_lines(filename)
-        .expect("failed to read input");
+    let mut iter = read_lines(filename).expect("failed to read input");
     let mut reports: Vec<Report> = Vec::new();
-    let mut coords: Vec<(i32, i32, i32)> = Vec::new();
+    let mut coords: Vec<Coord> = Vec::new();
     iter.next();
     loop {
         match iter.next() {
@@ -224,7 +220,7 @@ where
                     iter.next();
                     continue;
                 }
-                let coord: (i32, i32, i32) = line
+                let coord: Coord = line
                     .split(',')
                     .into_iter()
                     .map(|coord| coord.parse::<i32>().unwrap())
@@ -258,10 +254,9 @@ pub fn solution_2<P>(filename: P) -> i32
 where
     P: AsRef<Path>,
 {
-    let mut iter = read_lines(filename)
-        .expect("failed to read input");
+    let mut iter = read_lines(filename).expect("failed to read input");
     let mut reports: Vec<Report> = Vec::new();
-    let mut coords: Vec<(i32, i32, i32)> = Vec::new();
+    let mut coords: Vec<Coord> = Vec::new();
     iter.next();
     loop {
         match iter.next() {
@@ -274,7 +269,7 @@ where
                     iter.next();
                     continue;
                 }
-                let coord: (i32, i32, i32) = line
+                let coord: Coord = line
                     .split(',')
                     .into_iter()
                     .map(|coord| coord.parse::<i32>().unwrap())
@@ -296,7 +291,7 @@ where
             }
         });
     }
-    let locs: Vec<(i32, i32, i32)> = reports
+    let locs: Vec<Coord> = reports
         .into_iter()
         .map(|r| r.scanner_loc.unwrap())
         .collect();

@@ -1,10 +1,16 @@
-use std::{collections::{HashMap, HashSet, VecDeque}, path::Path};
+use std::{
+    collections::{HashMap, HashSet, VecDeque},
+    path::Path,
+};
 
 use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1<P>(filename: P) -> u32 where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> u32
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
     let vals: HashMap<(i32, i32), u32> = lines
         .into_iter()
@@ -37,7 +43,10 @@ pub fn solution_1<P>(filename: P) -> u32 where P: AsRef<Path> {
         .sum()
 }
 
-pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
     let vals: HashMap<(i32, i32), u32> = lines
         .into_iter()

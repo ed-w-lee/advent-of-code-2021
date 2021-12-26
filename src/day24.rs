@@ -1,5 +1,8 @@
-use std::{collections::{HashMap, VecDeque}, path::Path};
 use itertools::Itertools;
+use std::{
+    collections::{HashMap, VecDeque},
+    path::Path,
+};
 
 use crate::util::read_lines;
 
@@ -34,47 +37,112 @@ fn necessary_input(vars: &[(i64, i64, i64)], prefer_max: bool) -> String {
             digits.insert(curr_idx, curr_val);
         }
     }
-    
-    digits.into_iter().sorted().fold("".to_string(), |acc, (_, val)| {
-        acc + &val.to_string()
-    })
+
+    digits
+        .into_iter()
+        .sorted()
+        .fold("".to_string(), |acc, (_, val)| acc + &val.to_string())
 }
 
-pub fn solution_1<P>(filename: P) -> String where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> String
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
     let vars = lines
-        .into_iter().chunks(18).into_iter().map(|chunk| {
-            let vars = chunk.into_iter().enumerate().filter_map(|(line_idx, l)| {
-                match line_idx {
-                    4 => Some(("A", l.unwrap().split_whitespace().nth(2).unwrap().parse::<i64>().unwrap())),
-                    5 => Some(("B", l.unwrap().split_whitespace().nth(2).unwrap().parse::<i64>().unwrap())),
-                    15 => Some(("C", l.unwrap().split_whitespace().nth(2).unwrap().parse::<i64>().unwrap())),
-                    _ => None
-                }
-            }).collect::<HashMap<_, _>>();
+        .into_iter()
+        .chunks(18)
+        .into_iter()
+        .map(|chunk| {
+            let vars = chunk
+                .into_iter()
+                .enumerate()
+                .filter_map(|(line_idx, l)| match line_idx {
+                    4 => Some((
+                        "A",
+                        l.unwrap()
+                            .split_whitespace()
+                            .nth(2)
+                            .unwrap()
+                            .parse::<i64>()
+                            .unwrap(),
+                    )),
+                    5 => Some((
+                        "B",
+                        l.unwrap()
+                            .split_whitespace()
+                            .nth(2)
+                            .unwrap()
+                            .parse::<i64>()
+                            .unwrap(),
+                    )),
+                    15 => Some((
+                        "C",
+                        l.unwrap()
+                            .split_whitespace()
+                            .nth(2)
+                            .unwrap()
+                            .parse::<i64>()
+                            .unwrap(),
+                    )),
+                    _ => None,
+                })
+                .collect::<HashMap<_, _>>();
             (vars["A"], vars["B"], vars["C"])
-        }).collect_vec();
-
+        })
+        .collect_vec();
 
     println!("{:?}", vars);
     necessary_input(&vars, true)
 }
 
-pub fn solution_2<P>(filename: P) -> String where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> String
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
     let vars = lines
-        .into_iter().chunks(18).into_iter().map(|chunk| {
-            let vars = chunk.into_iter().enumerate().filter_map(|(line_idx, l)| {
-                match line_idx {
-                    4 => Some(("A", l.unwrap().split_whitespace().nth(2).unwrap().parse::<i64>().unwrap())),
-                    5 => Some(("B", l.unwrap().split_whitespace().nth(2).unwrap().parse::<i64>().unwrap())),
-                    15 => Some(("C", l.unwrap().split_whitespace().nth(2).unwrap().parse::<i64>().unwrap())),
-                    _ => None
-                }
-            }).collect::<HashMap<_, _>>();
+        .into_iter()
+        .chunks(18)
+        .into_iter()
+        .map(|chunk| {
+            let vars = chunk
+                .into_iter()
+                .enumerate()
+                .filter_map(|(line_idx, l)| match line_idx {
+                    4 => Some((
+                        "A",
+                        l.unwrap()
+                            .split_whitespace()
+                            .nth(2)
+                            .unwrap()
+                            .parse::<i64>()
+                            .unwrap(),
+                    )),
+                    5 => Some((
+                        "B",
+                        l.unwrap()
+                            .split_whitespace()
+                            .nth(2)
+                            .unwrap()
+                            .parse::<i64>()
+                            .unwrap(),
+                    )),
+                    15 => Some((
+                        "C",
+                        l.unwrap()
+                            .split_whitespace()
+                            .nth(2)
+                            .unwrap()
+                            .parse::<i64>()
+                            .unwrap(),
+                    )),
+                    _ => None,
+                })
+                .collect::<HashMap<_, _>>();
             (vars["A"], vars["B"], vars["C"])
-        }).collect_vec();
-
+        })
+        .collect_vec();
 
     println!("{:?}", vars);
     necessary_input(&vars, false)

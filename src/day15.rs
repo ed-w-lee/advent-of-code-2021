@@ -68,9 +68,9 @@ fn shortest_path(costs: &HashMap<(i32, i32), u64>, start: &(i32, i32), goal: &(i
             .filter_map(|(offr, offc)| {
                 let next_pos = (r + offr, c + offc);
                 costs.get(&next_pos).map(|next_cost| State {
-                        cost: cost + *next_cost,
-                        position: next_pos,
-                    })
+                    cost: cost + *next_cost,
+                    position: next_pos,
+                })
             })
             .for_each(|next_state| {
                 if next_state.cost < *dist.get(&next_state.position).unwrap() {

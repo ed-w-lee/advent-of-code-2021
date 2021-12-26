@@ -1,4 +1,4 @@
-use std::{path::Path, collections::{HashSet}};
+use std::{collections::HashSet, path::Path};
 
 use itertools::Itertools;
 
@@ -6,31 +6,33 @@ use crate::util::read_lines;
 
 // axis[0] = x if true else y
 fn fold_paper(paper: &HashSet<(usize, usize)>, axis: (bool, usize)) -> HashSet<(usize, usize)> {
-    paper.iter().filter_map(|(x, y)| match axis {
-        (true, line) => {
-            // x axis fold
-            if *x == line {
-                None
-            } else if *x < line {
-                Some((*x, *y))
-            } else {
-                Some((2 * line - (*x), *y))
+    paper
+        .iter()
+        .filter_map(|(x, y)| match axis {
+            (true, line) => {
+                // x axis fold
+                match *x {
+                    a if a == line => None,
+                    a if a < line => Some((*x, *y)),
+                    _ => Some((2 * line - *x, *y)),
+                }
             }
-        }
-        (false, line) => {
-            // x axis fold
-            if *x == line {
-                None
-            } else if *y < line {
-                Some((*x, *y))
-            } else {
-                Some((*x, 2 * line - (*y)))
+            (false, line) => {
+                // y axis fold
+                match *y {
+                    a if a == line => None,
+                    a if a < line => Some((*x, *y)),
+                    _ => Some((*x, 2 * line - *y)),
+                }
             }
-        }
-    }).collect()
+        })
+        .collect()
 }
 
-pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let mut lines = read_lines(filename).expect("failed to read input");
     let mut paper: HashSet<(usize, usize)> = HashSet::new();
     loop {
@@ -39,16 +41,19 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
             break;
         }
         let mut coords = line.split(',');
-        paper.insert((coords.next().unwrap().parse().unwrap(), coords.next().unwrap().parse().unwrap()));
+        paper.insert((
+            coords.next().unwrap().parse().unwrap(),
+            coords.next().unwrap().parse().unwrap(),
+        ));
     }
 
     let line = lines.next().unwrap().unwrap();
-    let fold_along= &line[11..];
+    let fold_along = &line[11..];
     let mut axis = fold_along.split('=');
     let orientation: bool = match axis.next().unwrap().parse().unwrap() {
         'x' => true,
         'y' => false,
-        _ => unreachable!()
+        _ => unreachable!(),
     };
     let line: usize = axis.next().unwrap().parse().unwrap();
     let papers = fold_paper(&paper, (orientation, line));
@@ -60,10 +65,16 @@ fn render_coords(coords: HashSet<(usize, usize)>) -> String {
     let max_y = *(coords.iter().map(|(_, y)| y).max().unwrap()) as usize + 1;
     let mut canvas: Vec<Vec<char>> = vec![vec![' '; max_x]; max_y];
     coords.into_iter().for_each(|(x, y)| (canvas[y])[x] = 'x');
-    canvas.into_iter().map(|row| row.into_iter().collect::<String>()).join("\n")
+    canvas
+        .into_iter()
+        .map(|row| row.into_iter().collect::<String>())
+        .join("\n")
 }
 
-pub fn solution_2<P>(filename: P) -> String where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> String
+where
+    P: AsRef<Path>,
+{
     let mut lines = read_lines(filename).expect("failed to read input");
     let mut paper: HashSet<(usize, usize)> = HashSet::new();
     loop {
@@ -72,17 +83,20 @@ pub fn solution_2<P>(filename: P) -> String where P: AsRef<Path> {
             break;
         }
         let mut coords = line.split(',');
-        paper.insert((coords.next().unwrap().parse().unwrap(), coords.next().unwrap().parse().unwrap()));
+        paper.insert((
+            coords.next().unwrap().parse().unwrap(),
+            coords.next().unwrap().parse().unwrap(),
+        ));
     }
 
     lines.for_each(|line_res| {
         let line = line_res.unwrap();
-        let fold_along= &line[11..];
+        let fold_along = &line[11..];
         let mut axis = fold_along.split('=');
         let orientation: bool = match axis.next().unwrap().parse().unwrap() {
             'x' => true,
             'y' => false,
-            _ => unreachable!()
+            _ => unreachable!(),
         };
         let pos: usize = axis.next().unwrap().parse().unwrap();
         paper = fold_paper(&paper, (orientation, pos));

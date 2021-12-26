@@ -58,9 +58,13 @@ where
         .map(|line| parse_line(line.unwrap()))
         .fold(HashSet::new(), |mut acc, input| {
             let (is_on, ((xmin, xmax), (ymin, ymax), (zmin, zmax))) = input;
-            if xmin > BOUND || ymin > BOUND || zmin > BOUND {
-                return acc;
-            } else if xmax < -BOUND || ymax < -BOUND || zmax < -BOUND {
+            if xmin > BOUND
+                || ymin > BOUND
+                || zmin > BOUND
+                || xmax < -BOUND
+                || ymax < -BOUND
+                || zmax < -BOUND
+            {
                 return acc;
             }
             let xmin = clamp(xmin, -BOUND, BOUND);

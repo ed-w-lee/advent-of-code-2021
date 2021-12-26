@@ -1,13 +1,17 @@
 use std::{
     char::from_digit,
-    collections::{HashMap, HashSet}, path::Path,
+    collections::{HashMap, HashSet},
+    path::Path,
 };
 
 use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let unique_digits = HashSet::from([2, 3, 4, 7]);
     let lines = read_lines(filename).expect("failed to read input");
     lines
@@ -59,10 +63,12 @@ fn find_digits(digits: Vec<String>) -> HashMap<String, char> {
         .unwrap();
     let c_or_f = digit_letters[&1].clone();
     let b_or_d: HashSet<char> = digit_letters[&4]
-        .difference(&digit_letters[&1]).copied()
+        .difference(&digit_letters[&1])
+        .copied()
         .collect();
     let mut e_or_g: HashSet<char> = digit_letters[&8]
-        .difference(&digit_letters[&4]).copied()
+        .difference(&digit_letters[&4])
+        .copied()
         .collect();
     e_or_g.remove(letter_a);
     let mut letter_b: char = 'x';
@@ -122,9 +128,12 @@ fn find_digits(digits: Vec<String>) -> HashMap<String, char> {
         .collect()
 }
 
-pub fn solution_2<P>(filename: P) -> u32 where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> u32
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
-    let digit_outputs: Vec<(Vec<String>, Vec<String>)> = lines
+    lines
         .into_iter()
         .map(|line_res| {
             let line = line_res.unwrap();
@@ -135,18 +144,15 @@ pub fn solution_2<P>(filename: P) -> u32 where P: AsRef<Path> {
                     .unwrap()
                     .split_whitespace()
                     .map(|s| s.to_string())
-                    .collect(),
+                    .collect::<Vec<_>>(),
                 digit_output
                     .next()
                     .unwrap()
                     .split_whitespace()
                     .map(|s| s.to_string())
-                    .collect(),
+                    .collect::<Vec<_>>(),
             )
         })
-        .collect();
-    digit_outputs
-        .into_iter()
         .map(|(digits, outputs)| {
             let wires_to_digits = find_digits(digits);
             outputs

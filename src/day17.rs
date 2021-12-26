@@ -53,11 +53,8 @@ pub fn solution_2(xbound: (u64, u64), ybound: (i64, i64)) -> usize {
     let mut total = 0;
     for y_vel in y_low..-y_low {
         println!("y_vel: {}", y_vel);
-        match num_steps(y_vel, ybound) {
-            Some(step_bound) => {
-                total += num_possible_x(xbound, step_bound);
-            }
-            None => (),
+        if let Some(step_bound) = num_steps(y_vel, ybound) {
+            total += num_possible_x(xbound, step_bound);
         }
         println!("total: {:?}", total);
     }

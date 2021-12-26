@@ -1,5 +1,8 @@
 use crate::util::read_lines;
-use std::{collections::{HashMap, HashSet}, path::Path};
+use std::{
+    collections::{HashMap, HashSet},
+    path::Path,
+};
 
 fn is_small(s: &str) -> bool {
     s.chars().next().unwrap().is_lowercase()
@@ -29,7 +32,10 @@ fn count_paths(
     count
 }
 
-pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
     let edges: Vec<(String, String)> = lines
         .into_iter()
@@ -46,7 +52,7 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
         .collect();
     let mut edge_map: HashMap<String, Vec<String>> = HashMap::new();
     for (a, b) in edges {
-        (edge_map.entry(a.to_string()).or_insert(Vec::new())).push(b.to_string());
+        (edge_map.entry(a.to_string()).or_insert_with(Vec::new)).push(b.to_string());
     }
     let mut visited: HashSet<String> = HashSet::new();
     count_paths(&edge_map, &mut visited, "start")
@@ -87,7 +93,10 @@ fn count_paths_double(
     count
 }
 
-pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
     let edges: Vec<(String, String)> = lines
         .into_iter()
@@ -104,7 +113,7 @@ pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
         .collect();
     let mut edge_map: HashMap<String, Vec<String>> = HashMap::new();
     for (a, b) in edges {
-        (edge_map.entry(a.to_string()).or_insert(Vec::new())).push(b.to_string());
+        (edge_map.entry(a.to_string()).or_insert_with(Vec::new)).push(b.to_string());
     }
     let mut visited: HashSet<String> = HashSet::new();
     count_paths_double(&edge_map, &mut visited, true, "start")

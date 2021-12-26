@@ -17,7 +17,10 @@ fn generated_fish(dp: &mut HashMap<(u32, u32), usize>, timer: u32, num_days: u32
     generated_fish(dp, timer - 1, num_days - 1)
 }
 
-pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     const NUM_DAYS: u32 = 80;
     let mut lines = read_lines(filename).expect("failed to read input");
     let line = lines.next().expect("no line").expect("no line 2");
@@ -27,7 +30,10 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
         .sum()
 }
 
-pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     const NUM_DAYS: u32 = 256;
     let mut lines = read_lines(filename).expect("failed to read input");
     let line = lines.next().expect("no line").expect("no line 2");

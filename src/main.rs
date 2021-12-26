@@ -96,5 +96,5 @@ fn main() {
     // println!("{}", day23::solution_2());
     // println!("{}", day24::solution_1("input/day24_input.txt"));
     // println!("{}", day24::solution_2("input/day24_input.txt"));
-    println!("{}", day25::solution_1("input/day25_input.txt"));
+    // println!("{}", day25::solution_1("input/day25_input.txt"));
 }

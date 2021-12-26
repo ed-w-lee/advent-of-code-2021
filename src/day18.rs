@@ -32,12 +32,8 @@ impl FromStr for Pair {
             ']' => match (stack.pop_back().unwrap(), stack.pop_back().unwrap()) {
                 (ParseNode::Node(right), ParseNode::Node(left)) => {
                     match stack.pop_back().unwrap() {
-                        ParseNode::Open => {
-                            stack.push_back(ParseNode::Node(Node::Pair(Box::new(Pair {
-                                left,
-                                right,
-                            }))))
-                        }
+                        ParseNode::Open => stack
+                            .push_back(ParseNode::Node(Node::Pair(Box::new(Pair { left, right })))),
                         _ => unreachable!(),
                     }
                 }
@@ -102,10 +98,7 @@ impl Pair {
                 *curr += *val;
                 false
             }
-            Node::Pair(p) => {
-                
-                (*p).send_left(false, val)
-            }
+            Node::Pair(p) => (*p).send_left(false, val),
         }
     }
 
@@ -130,10 +123,7 @@ impl Pair {
                 *curr += *val;
                 false
             }
-            Node::Pair(p) => {
-                
-                (*p).send_right(false, val)
-            }
+            Node::Pair(p) => (*p).send_right(false, val),
         }
     }
 

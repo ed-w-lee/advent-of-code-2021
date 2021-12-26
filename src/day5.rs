@@ -4,9 +4,12 @@ use itertools::Itertools;
 
 use crate::util::read_lines;
 
-pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
-    let lr_coords: Vec<((i32, i32), (i32, i32))> = lines
+    lines
         .into_iter()
         .map(|line| {
             line.expect("couldn't find line")
@@ -21,10 +24,6 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
                 .collect_tuple::<((i32, i32), (i32, i32))>()
         })
         .map(|coord_pair| coord_pair.unwrap())
-        .collect();
-
-    let x = lr_coords
-        .into_iter()
         .filter_map(|((lx, ly), (rx, ry))| {
             if lx != rx && ly != ry {
                 None
@@ -45,9 +44,6 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
             }
         })
         .flatten()
-        .collect::<Vec<(i32, i32)>>();
-
-    x.into_iter()
         .fold(HashMap::<(i32, i32), i32>::new(), |mut counts, coord| {
             *(counts.entry(coord).or_insert(0)) += 1;
             counts
@@ -57,9 +53,12 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
         .count()
 }
 
-pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> usize
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(filename).expect("failed to read input");
-    let lr_coords: Vec<((i32, i32), (i32, i32))> = lines
+    lines
         .into_iter()
         .map(|line| {
             line.expect("couldn't find line")
@@ -74,10 +73,6 @@ pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
                 .collect_tuple::<((i32, i32), (i32, i32))>()
         })
         .map(|coord_pair| coord_pair.unwrap())
-        .collect();
-
-    let x = lr_coords
-        .into_iter()
         .map(|((lx, ly), (rx, ry))| {
             if lx != rx && ly != ry {
                 let itx = if lx < rx { 1 } else { -1 };
@@ -99,9 +94,6 @@ pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
             }
         })
         .flatten()
-        .collect::<Vec<(i32, i32)>>();
-
-    x.into_iter()
         .fold(HashMap::<(i32, i32), i32>::new(), |mut counts, coord| {
             *(counts.entry(coord).or_insert(0)) += 1;
             counts

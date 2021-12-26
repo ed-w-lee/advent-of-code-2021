@@ -1,4 +1,7 @@
-use std::{collections::{HashMap, VecDeque}, path::Path};
+use std::{
+    collections::{HashMap, VecDeque},
+    path::Path,
+};
 
 use itertools::Itertools;
 
@@ -26,7 +29,10 @@ fn parse_line(closing_map: &HashMap<char, char>, line: String) -> Result<VecDequ
         })
 }
 
-pub fn solution_1<P>(filename: P) -> u32 where P: AsRef<Path> {
+pub fn solution_1<P>(filename: P) -> u32
+where
+    P: AsRef<Path>,
+{
     let point_map: HashMap<char, u32> =
         HashMap::from([(')', 3), (']', 57), ('}', 1197), ('>', 25137)]);
     let closing_map: HashMap<char, char> =
@@ -46,7 +52,10 @@ pub fn solution_1<P>(filename: P) -> u32 where P: AsRef<Path> {
         .sum()
 }
 
-pub fn solution_2<P>(filename: P) -> u64 where P: AsRef<Path> {
+pub fn solution_2<P>(filename: P) -> u64
+where
+    P: AsRef<Path>,
+{
     let point_map: HashMap<char, u64> = HashMap::from([(')', 1), (']', 2), ('}', 3), ('>', 4)]);
     let closing_map: HashMap<char, char> =
         HashMap::from([('(', ')'), ('{', '}'), ('[', ']'), ('<', '>')]);

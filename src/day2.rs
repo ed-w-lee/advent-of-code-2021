@@ -5,7 +5,10 @@ use crate::util::read_lines;
 #[derive(Add, Sum)]
 struct Offset(i32, i32);
 
-pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
+pub fn solution_1<P>(fname: P) -> i32
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(fname).expect("failed to read input");
     let offset = lines
         .into_iter()
@@ -34,7 +37,10 @@ pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
     offset.0 * offset.1
 }
 
-pub fn solution_2<P>(fname: P) -> i32 where P: AsRef<Path> {
+pub fn solution_2<P>(fname: P) -> i32
+where
+    P: AsRef<Path>,
+{
     let lines = read_lines(fname).expect("failed to read input");
     let offset = lines
         .into_iter()
