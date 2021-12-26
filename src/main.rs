@@ -1,4 +1,4 @@
-#![allow(dead_code, unused_imports)]
+#![allow(dead_code)]
 
 #[macro_use]
 extern crate derive_more;
@@ -30,6 +30,7 @@ mod day8;
 mod day9;
 mod util;
 
+#[allow(unused_imports)]
 use crate::util::read_lines;
 
 fn main() {

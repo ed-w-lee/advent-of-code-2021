@@ -4,17 +4,6 @@ use itertools::Itertools;
 
 use crate::util::read_lines;
 
-const SURROUND: [(i32, i32); 8] = [
-    (1, 1),
-    (0, 1),
-    (-1, 1),
-    (1, 0),
-    (-1, 0),
-    (1, -1),
-    (0, -1),
-    (-1, -1),
-];
-
 fn step(
     max_row: usize,
     max_col: usize,
