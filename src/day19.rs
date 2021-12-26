@@ -133,7 +133,7 @@ fn rotate(coord: &(i32, i32, i32), nth: u32) -> (i32, i32, i32) {
         if curr_n == nth {
             return curr;
         }
-        for turn_idx in 0..3 {
+        for _ in 0..3 {
             curr = if roll_idx % 2 == 0 {
                 turn_cw(&curr)
             } else {
