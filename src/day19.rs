@@ -18,9 +18,9 @@ struct Report {
 
 impl Report {
     fn new(coords: &[(i32, i32, i32)]) -> Self {
-        let (distance_set, distance_map, node_distances) = distances_for(&coords);
+        let (distance_set, distance_map, node_distances) = distances_for(coords);
         Self {
-            coords: coords.into_iter().map(|c| c.clone()).collect(),
+            coords: coords.iter().copied().collect(),
             distance_set,
             distance_map,
             node_distances,
@@ -33,7 +33,7 @@ impl Report {
     }
 
     fn normalize(&self, other: &mut Self) -> bool {
-        if let Some(_) = other.scanner_loc {
+        if other.scanner_loc.is_some() {
             return false;
         }
         let mut intersection = self.distance_set.intersection(&other.distance_set);
@@ -48,13 +48,13 @@ impl Report {
         let (cand_coord1, cand_coord2) = other.distance_map.get(distance1).unwrap();
         let self_distances: HashSet<_> = self
             .node_distances
-            .get(&self_coord1)
+            .get(self_coord1)
             .unwrap()
             .keys()
             .collect();
         let cand_distances: HashSet<_> = other
             .node_distances
-            .get(&cand_coord1)
+            .get(cand_coord1)
             .unwrap()
             .keys()
             .collect();
@@ -69,9 +69,7 @@ impl Report {
             self.node_distances
                 .get(s1)
                 .unwrap()
-                .iter()
-                .filter(|(dist, idx)| s2 != *idx && other.distance_set.contains(*dist))
-                .next()
+                .iter().find(|(dist, idx)| s2 != *idx && other.distance_set.contains(*dist))
                 .unwrap()
         };
         let o1_distances = other.node_distances.get(o1).unwrap();
@@ -122,7 +120,7 @@ fn turn_ccw(coord: &(i32, i32, i32)) -> (i32, i32, i32) {
 }
 
 fn rotate(coord: &(i32, i32, i32), nth: u32) -> (i32, i32, i32) {
-    let mut curr = coord.clone();
+    let mut curr = *coord;
     let mut curr_n = 0;
     if curr_n == nth {
         return curr;
@@ -211,8 +209,7 @@ where
     P: AsRef<Path>,
 {
     let mut iter = read_lines(filename)
-        .expect("failed to read input")
-        .into_iter();
+        .expect("failed to read input");
     let mut reports: Vec<Report> = Vec::new();
     let mut coords: Vec<(i32, i32, i32)> = Vec::new();
     iter.next();
@@ -262,8 +259,7 @@ where
     P: AsRef<Path>,
 {
     let mut iter = read_lines(filename)
-        .expect("failed to read input")
-        .into_iter();
+        .expect("failed to read input");
     let mut reports: Vec<Report> = Vec::new();
     let mut coords: Vec<(i32, i32, i32)> = Vec::new();
     iter.next();

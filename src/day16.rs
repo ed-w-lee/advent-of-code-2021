@@ -51,7 +51,7 @@ fn parse_packet(binary: &str) -> (Packet, usize) {
         let mut n_chunk = 0;
         let mut val: u64 = 0;
         loop {
-            val = val << 4;
+            val <<= 4;
             // take 5 at a time, once we hit 0
             n_chunk += 1;
             let start_idx = (n_chunk * 5) + 1;
@@ -60,7 +60,7 @@ fn parse_packet(binary: &str) -> (Packet, usize) {
 
             let chunk_val = u64::from_str_radix(&chunk[1..], 2).unwrap();
             val += chunk_val;
-            if chunk.chars().nth(0) == Some('0') {
+            if chunk.starts_with('0') {
                 break;
             }
         }

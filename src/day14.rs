@@ -10,7 +10,7 @@ fn get_counts(
     num_steps: usize,
 ) -> HashMap<char, usize> {
     let mut template_chars = template.chars();
-    let start_char = template_chars.nth(0).unwrap();
+    let start_char = template_chars.next().unwrap();
     let end_char = template_chars.last().unwrap();
 
     let mut counts: HashMap<(char, char), usize> = template

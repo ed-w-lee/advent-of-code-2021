@@ -7,6 +7,7 @@ use crate::util::read_lines;
 // * A is 26 when B is negative, and 1 when B is positive
 // * when B is positive, B >= 10
 // * C <= 15 (specifically when B is positive), so (input + C) is always < 26
+// * A=1 and A=26 are balanced, and A=26 must always come after an A=1
 //
 // this means that when A = 1, Z' = Z * 26 + (input + C)
 // and when A = 26, Z' = Z / 26

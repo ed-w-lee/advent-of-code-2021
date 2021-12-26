@@ -1,4 +1,4 @@
-#![allow(dead_code)]
+#![allow(dead_code, unused_imports)]
 
 #[macro_use]
 extern crate derive_more;
@@ -20,6 +20,7 @@ mod day21;
 mod day22;
 mod day23;
 mod day24;
+mod day25;
 mod day3;
 mod day4;
 mod day5;
@@ -94,5 +95,6 @@ fn main() {
     // println!("{}", day23::solution_1());
     // println!("{}", day23::solution_2());
     // println!("{}", day24::solution_1("input/day24_input.txt"));
-    println!("{}", day24::solution_2("input/day24_input.txt"));
+    // println!("{}", day24::solution_2("input/day24_input.txt"));
+    println!("{}", day25::solution_1("input/day25_input.txt"));
 }

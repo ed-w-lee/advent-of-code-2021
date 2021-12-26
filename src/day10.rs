@@ -57,7 +57,7 @@ pub fn solution_2<P>(filename: P) -> u64 where P: AsRef<Path> {
         .filter_map(|line| parse_line(&closing_map, line.unwrap()).ok())
         .map(|res| {
             res.into_iter().rev().fold(0u64, |acc, c| {
-                acc * 5 + point_map.get(&closing_map.get(&c).unwrap()).unwrap()
+                acc * 5 + point_map.get(closing_map.get(&c).unwrap()).unwrap()
             })
         })
         .sorted()

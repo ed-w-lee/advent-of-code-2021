@@ -133,7 +133,7 @@ impl Squares {
             .y_ranges
             .iter()
             .map(|((y_pos, cube_idx), is_range_start)| {
-                let (is_on, _, z_range) = self.cubes.get(&cube_idx).unwrap();
+                let (is_on, _, z_range) = self.cubes.get(cube_idx).unwrap();
                 if *is_range_start {
                     active_z.insert((z_range.0, *cube_idx), (true, *is_on));
                     active_z.insert((z_range.1 + 1, *cube_idx), (false, *is_on));

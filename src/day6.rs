@@ -14,7 +14,7 @@ fn generated_fish(dp: &mut HashMap<(u32, u32), usize>, timer: u32, num_days: u32
         dp.insert((timer, num_days), to_ret);
         return to_ret;
     }
-    return generated_fish(dp, timer - 1, num_days - 1);
+    generated_fish(dp, timer - 1, num_days - 1)
 }
 
 pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {

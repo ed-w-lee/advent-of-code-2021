@@ -22,7 +22,7 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
                 .collect::<Vec<usize>>()
         })
         .flatten()
-        .filter(|unique_lens| unique_digits.contains(&unique_lens))
+        .filter(|unique_lens| unique_digits.contains(unique_lens))
         .count()
 }
 
@@ -59,12 +59,10 @@ fn find_digits(digits: Vec<String>) -> HashMap<String, char> {
         .unwrap();
     let c_or_f = digit_letters[&1].clone();
     let b_or_d: HashSet<char> = digit_letters[&4]
-        .difference(&digit_letters[&1])
-        .map(|c| c.clone())
+        .difference(&digit_letters[&1]).copied()
         .collect();
     let mut e_or_g: HashSet<char> = digit_letters[&8]
-        .difference(&digit_letters[&4])
-        .map(|c| c.clone())
+        .difference(&digit_letters[&4]).copied()
         .collect();
     e_or_g.remove(letter_a);
     let mut letter_b: char = 'x';
@@ -79,7 +77,7 @@ fn find_digits(digits: Vec<String>) -> HashMap<String, char> {
                     letter_e = *missing;
                     digit_letters.insert(9, chars);
                 } else if b_or_d.contains(missing) {
-                    letter_b = *b_or_d.iter().filter(|c| *c != missing).next().unwrap();
+                    letter_b = *b_or_d.iter().find(|c| *c != missing).unwrap();
                     digit_letters.insert(0, chars);
                 } else if c_or_f.contains(missing) {
                     digit_letters.insert(6, chars);
@@ -155,10 +153,9 @@ pub fn solution_2<P>(filename: P) -> u32 where P: AsRef<Path> {
                 .into_iter()
                 .map(move |output| {
                     let sorted_chars: String = output.chars().sorted().collect();
-                    wires_to_digits
+                    *wires_to_digits
                         .get(&sorted_chars)
                         .expect("no sorted char in wires_to_digits")
-                        .clone()
                 })
                 .collect::<String>()
                 .parse::<u32>()

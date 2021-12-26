@@ -35,7 +35,7 @@ pub fn solution_1<P>(filename: P) -> usize where P: AsRef<Path> {
     let mut paper: HashSet<(usize, usize)> = HashSet::new();
     loop {
         let line = lines.next().unwrap().unwrap();
-        if line.trim().len() == 0 {
+        if line.trim().is_empty() {
             break;
         }
         let mut coords = line.split(',');
@@ -68,7 +68,7 @@ pub fn solution_2<P>(filename: P) -> String where P: AsRef<Path> {
     let mut paper: HashSet<(usize, usize)> = HashSet::new();
     loop {
         let line = lines.next().unwrap().unwrap();
-        if line.trim().len() == 0 {
+        if line.trim().is_empty() {
             break;
         }
         let mut coords = line.split(',');

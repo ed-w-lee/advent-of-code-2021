@@ -35,7 +35,7 @@ fn render_map(costs: &HashMap<(i32, i32), u64>) -> String {
     let max_x = *(costs.iter().map(|((x, _), _)| x).max().unwrap()) as usize + 1;
     let max_y = *(costs.iter().map(|((_, y), _)| y).max().unwrap()) as usize + 1;
     let mut canvas: Vec<Vec<char>> = vec![vec![' '; max_x]; max_y];
-    costs.into_iter().for_each(|((x, y), cost)| {
+    costs.iter().for_each(|((x, y), cost)| {
         (canvas[*x as usize])[*y as usize] = from_digit(*cost as u32, 10).unwrap()
     });
     canvas
@@ -67,12 +67,10 @@ fn shortest_path(costs: &HashMap<(i32, i32), u64>, start: &(i32, i32), goal: &(i
             .iter()
             .filter_map(|(offr, offc)| {
                 let next_pos = (r + offr, c + offc);
-                costs.get(&next_pos).and_then(|next_cost| {
-                    Some(State {
+                costs.get(&next_pos).map(|next_cost| State {
                         cost: cost + *next_cost,
                         position: next_pos,
                     })
-                })
             })
             .for_each(|next_state| {
                 if next_state.cost < *dist.get(&next_state.position).unwrap() {

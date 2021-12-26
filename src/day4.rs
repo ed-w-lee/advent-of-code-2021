@@ -76,7 +76,7 @@ fn get_order_and_score(card: BingoCard) -> (usize, i32) {
 
 fn get_card_info<P>(filename: P) -> Vec<BingoCard> where P: AsRef<Path>{
     let lines = read_lines(filename).expect("failed to read input");
-    let mut it = lines.into_iter();
+    let mut it = lines;
     let number_to_order: HashMap<i32, usize> = it
         .next()
         .unwrap()
@@ -113,7 +113,7 @@ fn get_card_info<P>(filename: P) -> Vec<BingoCard> where P: AsRef<Path>{
 pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
     get_card_info(fname)
         .into_iter()
-        .map(|card| get_order_and_score(card))
+        .map(get_order_and_score)
         .min()
         .unwrap()
         .1
@@ -122,7 +122,7 @@ pub fn solution_1<P>(fname: P) -> i32 where P: AsRef<Path> {
 pub fn solution_2<P>(fname: P) -> i32 where P: AsRef<Path> {
     get_card_info(fname)
         .into_iter()
-        .map(|card| get_order_and_score(card))
+        .map(get_order_and_score)
         .max()
         .unwrap()
         .1

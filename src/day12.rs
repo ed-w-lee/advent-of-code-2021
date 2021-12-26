@@ -2,7 +2,7 @@ use crate::util::read_lines;
 use std::{collections::{HashMap, HashSet}, path::Path};
 
 fn is_small(s: &str) -> bool {
-    s.chars().nth(0).unwrap().is_lowercase()
+    s.chars().next().unwrap().is_lowercase()
 }
 
 fn count_paths(

@@ -63,7 +63,7 @@ pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
                     Some(neighbor_height) => neighbor_height > height,
                 })
             {
-                Some((x.clone(), y.clone()))
+                Some((*x, *y))
             } else {
                 None
             }
@@ -72,9 +72,9 @@ pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
 
     let mut visited: HashSet<(i32, i32)> = HashSet::new();
     let mut basins: HashMap<(i32, i32), usize> =
-        low_points.iter().map(|point| (point.clone(), 0)).collect();
+        low_points.iter().map(|point| (*point, 0)).collect();
     for low_point in low_points {
-        let mut queue: VecDeque<(i32, i32)> = VecDeque::from([low_point.clone()]);
+        let mut queue: VecDeque<(i32, i32)> = VecDeque::from([low_point]);
         // println!("BOUNDARY");
         while let Some(next_point) = queue.pop_front() {
             // println!("{:?}", next_point);
@@ -91,7 +91,7 @@ pub fn solution_2<P>(filename: P) -> usize where P: AsRef<Path> {
             } else {
                 continue;
             }
-            visited.insert(next_point.clone());
+            visited.insert(next_point);
 
             let (x, y) = next_point;
             DIFFS.iter().for_each(|(offx, offy)| {

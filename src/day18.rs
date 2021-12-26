@@ -34,8 +34,8 @@ impl FromStr for Pair {
                     match stack.pop_back().unwrap() {
                         ParseNode::Open => {
                             stack.push_back(ParseNode::Node(Node::Pair(Box::new(Pair {
-                                left: left,
-                                right: right,
+                                left,
+                                right,
                             }))))
                         }
                         _ => unreachable!(),
@@ -103,8 +103,8 @@ impl Pair {
                 false
             }
             Node::Pair(p) => {
-                let cont = (*p).send_left(false, val);
-                cont
+                
+                (*p).send_left(false, val)
             }
         }
     }
@@ -131,8 +131,8 @@ impl Pair {
                 false
             }
             Node::Pair(p) => {
-                let cont = (*p).send_right(false, val);
-                cont
+                
+                (*p).send_right(false, val)
             }
         }
     }

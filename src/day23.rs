@@ -53,11 +53,7 @@ fn is_success(state: &State) -> bool {
         false
     } else if !state.sideroom_pop[2].iter().all(|c| C == *c) {
         false
-    } else if !state.sideroom_pop[3].iter().all(|d| D == *d) {
-        false
-    } else {
-        true
-    }
+    } else { !(!state.sideroom_pop[3].iter().all(|d| D == *d)) }
 }
 
 fn get_min_cost(dp: &mut HashMap<State, (Option<u64>, Option<State>)>, move_cost: &HashMap<Amphipod, u64>, board: &Board, state: &mut State) -> Option<u64> {
